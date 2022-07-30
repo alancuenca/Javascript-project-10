@@ -1,0 +1,14 @@
+*{
+    box-sizing: border-box;
+}
+.tag{
+    padding: 2px;
+    margin: 5px;
+    margin-bottom: 30px;
+    font-style: italic;
+    border: 1px solid #ddd;
+    display: inline-block;
+}
+.tag::before{
+    content: "#";
+}
