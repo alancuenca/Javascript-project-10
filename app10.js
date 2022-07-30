@@ -47,6 +47,8 @@ function outputPage(data) {
     elemDisplay.classList.add('box')
     const titleDisplay = makeNode(elemDisplay, 'div', data.title);
     titleDisplay.classList.add('topTitle');
+    const answerCount = makeNode(elemDisplay, 'div', `Answers ${data.answer_count}`);
+    answerCount.classList.add('answers')
     titleDisplay.questionID = data.question_id
     titleDisplay.addEventListener('click', getByID) // use getByID function
     data.tags.forEach((tag) => {
@@ -68,7 +70,7 @@ function makeNode(parent, typeElement, html) {
 };
 
 /**
- * pass in the event object from titleDisplay
+ * pass in the event object id from titleDisplay
  */
 function getByID(e) {
     // /2.3/questions/25190374?order=desc&sort=activity&site=stackoverflow
