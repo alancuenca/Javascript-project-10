@@ -38,14 +38,19 @@ function outputItems(data) {
 /**
  * display forEach item's title on the page.
  * make a div with every items title.
- * two makeNode makes a nested div
+ * makeNode makes a nested div
+ * create span with each elem tag
  */
 function outputPage(data) {
-    console.log(data);
-    const titleDisplay = makeNode(output, 'div', '');
-    const elemDisplay = makeNode(titleDisplay, 'div', data.title);
+    //console.log(data);
+    const elemDisplay = makeNode(output, 'div', '');
+    elemDisplay.classList.add('box')
+    const titleDisplay = makeNode(elemDisplay, 'div', data.title);
+    titleDisplay.classList.add('topTitle');
+    titleDisplay.questionID = data.question_id
+    titleDisplay.addEventListener('click', getByID) // use getByID function
     data.tags.forEach((tag) => {
-        const tags = makeNode(titleDisplay, 'span', tag);
+        const tags = makeNode(elemDisplay, 'span', tag);
         tags.classList.add('tag')
     })
 };
@@ -60,4 +65,13 @@ function makeNode(parent, typeElement, html) {
     const element = document.createElement(typeElement);
     element.innerHTML = html;
     return parent.appendChild(element);
+};
+
+/**
+ * pass in the event object from titleDisplay
+ */
+function getByID(e) {
+    // /2.3/questions/25190374?order=desc&sort=activity&site=stackoverflow
+    const element = e.target; 
+    console.log(element.questionID);// returns the question id from the object clicked
 };
