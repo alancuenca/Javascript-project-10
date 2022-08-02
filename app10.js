@@ -1,7 +1,15 @@
 const btn1 = document.querySelector('.btn');
 const h1 = document.querySelector('h1');
+h1.textContent = 'Stackexchange API Tester';
+const output1 = makeNode(document.body, 'div', '');
+output1.classList.add('output1')
 const output = document.querySelector('.output');
 const inputVal = document.querySelector('.val');
+inputVal.value = 'javascript';
+output1.append(h1);
+output1.append(inputVal);
+output1.append(btn1);
+output1.append(output);
 const baseURL = 'https://api.stackexchange.com/'
 
 window.addEventListener('DOMContentLoaded', (e) => {
@@ -10,7 +18,14 @@ window.addEventListener('DOMContentLoaded', (e) => {
 });
 
 btn1.addEventListener('click', (e) => {
-    console.log('ready');
+    //console.log('ready');
+    const search = inputVal.value;
+    const url = baseURL + `2.3/search?order=desc&sort=activity&intitle=${search}&site=stackoverflow`
+    fetch(url)
+        .then(res => res.json())
+        .then(data => {
+        outputItems(data.items);
+    })
 });
 
 function pageLoad() {
