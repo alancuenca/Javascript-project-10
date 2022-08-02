@@ -5,6 +5,20 @@
 body{
     font-family: 'Merriweather', serif;
 }
+.output1{
+    width: 80%;
+    border: 1px solid #ddd;
+    font-size: 1em;
+    margin: auto;
+    text-align: center;
+}
+input, .btn{
+    display: block;
+    width: 90%;
+    font-size: 1.2em;
+    height: 45px;
+    text-align: center;
+}
 .tag{
     padding: 8px;
     margin: 5px;
