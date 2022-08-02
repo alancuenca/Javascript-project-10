@@ -6,6 +6,7 @@ const baseURL = 'https://api.stackexchange.com/'
 
 window.addEventListener('DOMContentLoaded', (e) => {
     pageLoad()
+    e.preventDefault();
 });
 
 btn1.addEventListener('click', (e) => {
@@ -50,7 +51,8 @@ function outputPage(data) {
     const answerCount = makeNode(elemDisplay, 'div', `Answers ${data.answer_count}`);
     answerCount.classList.add('answers')
     titleDisplay.questionID = data.question_id
-    titleDisplay.addEventListener('click', getByID) // use getByID function
+    titleDisplay.answerCount = data.answer_count
+    elemDisplay.addEventListener('click', getByID) // use getByID function
     data.tags.forEach((tag) => {
         const tags = makeNode(elemDisplay, 'span', tag);
         tags.classList.add('tag')
@@ -75,5 +77,64 @@ function makeNode(parent, typeElement, html) {
 function getByID(e) {
     // /2.3/questions/25190374?order=desc&sort=activity&site=stackoverflow
     const element = e.target; 
-    console.log(element.questionID);// returns the question id from the object clicked
+    if (element.answerCount > 0) {
+    const questionURL = baseURL + '2.3/questions/'+element.questionID+'?order=desc&sort=activity&site=stackoverflow';
+    const answerURL = baseURL + '2.3/questions/'+element.questionID+'/answers?order=desc&sort=activity&site=stackoverflow';
+    let questionData = {};
+    fetch(questionURL)
+    .then(res => res.json())
+    .then((data) => {
+        questionData = data
+        return fetch(answerURL)
+    })
+        .then(res => res.json())
+        .then((answers) => {
+            //console.log(questionData);
+            console.log(answers);
+            buildPageData(questionData.items[0],answers.items)
+        })
+    .catch((err) => {
+        console.log(err);
+    })
+    } else {
+        e.preventDefault()
+}
+};
+
+/**
+ * 
+ * @param {*} question 
+ * @param {*} answers 
+ * 
+ * build a display of question with the answers
+ */
+function buildPageData(question, answers) {
+    console.log(question);
+    console.log(answers);
+    output.innerHTML = '';
+
+    const questionTitle = makeNode(output, 'div', `<h2>${question.title}</h2>`);
+    //elemDisplay.classList.add('box');
+    const questionID = makeNode(output, 'div', `<div>Question ID : ${question.question_id}</div>`);
+    //elemDisplay.classList.add('box');
+    const totalAnswers = makeNode(output, 'div', `<div>Answers : ${question.answer_count}</div>`);
+    //elemDisplay.classList.add('box');
+    //elemDisplay.classList.add('box');
+    const questionLink = makeNode(output, 'a', `${question.link}`);
+    questionLink.setAttribute('href', question.link);
+    questionLink.setAttribute('target', '_blank');
+    //elemDisplay.classList.add('box');
+    const answerDiv = makeNode(output, 'div', '');
+    answerDiv.classList.add('info');
+    answers.forEach((answer, index) => {
+       // outputPage(answer);
+        console.log(answer);
+        const rating = answer.owner.accept_rate || '0';
+        const html = `
+        <hr>
+        Answer #${index + 1}<br>
+        Owner : ${answer.owner.display_name} (Reputation: ${answer.owner.reputation}, Accept Rate: ${rating})
+        `;
+        const answerHTML = makeNode(answerDiv, 'div', html)
+    })
 };

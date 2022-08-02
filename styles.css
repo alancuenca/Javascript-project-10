@@ -1,5 +1,9 @@
 *{
     box-sizing: border-box;
+    margin: .5em;
+}
+body{
+    font-family: 'Merriweather', serif;
 }
 .tag{
     padding: 8px;
@@ -34,11 +38,17 @@
 }
 
 .topTitle:hover{
-    opacity: .5;
+    opacity: .7;
     cursor: pointer;
     border-left: 8px solid red;
 }
 .answers{
     text-align: center;
     font-size: small;
+}
+.info{
+    width: 80%;
+    border: 1px solid #ddd;
+    margin: 2em;
+    padding: 2% 5%;
 }
