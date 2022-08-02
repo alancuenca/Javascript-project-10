@@ -14,7 +14,7 @@ btn1.addEventListener('click', (e) => {
 });
 
 function pageLoad() {
-    const url = baseURL + '2.2/questions?order=desc&sort=activity&site=stackoverflow'
+    const url = baseURL + '2.3/questions?order=desc&sort=activity&site=stackoverflow'
     fetch(url)
         .then(res => res.json())
         .then((data) => {
